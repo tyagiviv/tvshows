@@ -4,10 +4,20 @@
 
 {% block content %}
 <div>
-    <h1>Favorite Posters</h1>
+    <h1>Welcome to TV Show Portal</h1>
+    {% if request.user.is_authenticated %}
+    <p>Hi {{ request.user.username }}, enjoy your favorite TV shows!</p>
+    {% endif %}
+
 </div>
 
-<p>Total Posters: {{ posters|length }}</p>
+<!-- Container for the title and the Add Shows button -->
+<div class="heading-container">
+    <h1>Favorite Shows: {{ posters|length }}</h1>
+
+    <!-- Add Shows Button (only show if no posters) -->
+    <button class="add-shows-button" onclick="window.location.href='{% url 'top' %}'">Add Shows</button>
+</div>
 
 <div class="poster-container">
     {% for poster in posters %}
@@ -17,8 +27,62 @@
             </a>
         </div>
     {% empty %}
-        <p>No favorite posters found.</p>
+
+        <div class="no-shows-container">
+            <p class="no-shows">No favorite shows found.</p>
+        </div>
+
     {% endfor %}
 </div>
 
+
+{% endblock %}
+
+
+{% block extra_styles %}
+<style>
+    .add-shows-button {
+        padding: 10px 20px; /* Adjust button size */
+        background-color: #4CAF50; /* Green background */
+        color: white; /* White text */
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px; /* Rounded corners */
+        text-align: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .add-shows-button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+
+    /* Center the "No favorite shows found" message */
+    .no-shows-container {
+        display: flex; /* Use flexbox */
+        justify-content: center; /* Horizontally center */
+        align-items: center; /* Vertically center */
+        min-height: 300px; /* Minimum height for the container */
+        width: 100%; /* Ensure it spans the full width */
+    }
+
+    .no-shows {
+        text-align: center;
+        font-size: 18px;
+        color: #555; /* Gray color for text */
+        margin: 0; /* Reset default margins */
+    }
+
+    /* Ensure the poster-container has some space and structure */
+    .poster-container {
+        margin: 20px auto; /* Center container */
+        display: flex; /* Use flexbox for alignment */
+        flex-wrap: wrap; /* Allow wrapping */
+        justify-content: center; /* Center content horizontally */
+    }
+
+    .poster {
+        margin: 10px;
+    }
+</style>
 {% endblock %}
