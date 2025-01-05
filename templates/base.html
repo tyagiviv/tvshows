@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TV Show Portal{% endblock %}</title>
+    <style>
+
+        /* Ensure no horizontal overflow */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;  /* Prevent horizontal scroll */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body takes up the full height of the viewport */
+        }
+
+        /* Navbar Styling */
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;  /* Ensure navbar items are aligned on opposite ends */
+            align-items: center;  /* Center items vertically */
+            width: 100%;
+            box-sizing: border-box;
+
+
+        }
+
+        nav .left-nav, nav .right-nav {
+            display: flex;  /* Align navbar items in a row */
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;  /* Add space between navbar items */
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        nav .right-nav {
+            margin-left: auto;  /* Push the right items (login/logout) to the far right */
+        }
+
+        /* Content Section */
+        .content {
+            flex-grow: 1; /* Makes the content area grow to take the remaining space */
+            padding: 2rem;
+        }
+
+        /* Poster Grid Layout */
+        .poster-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+            gap: 20px; /* Gap between posters */
+            margin: 0 auto; /* Centers the container */
+            max-width: 1200px; /* Limit the container width */
+            padding: 20px;
+        }
+
+        /* Individual Poster Layout */
+        .poster {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .poster img {
+            width: 100%; /* Make the image take the full width of the parent */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: cover; /* Ensure the image covers the given size without stretching */
+        }
+
+        .poster h3 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 5px 10px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+            position: auto;
+            bottom: 0;
+            box-sizing: border-box;  /* Prevent padding from affecting layout */
+            margin-top: auto;  /* Ensure the footer stays at the bottom */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="left-nav">
+            <a href="/">Home</a>
+            <a href="/top/">Featured</a>
+            {% if request.user.is_authenticated %}
+                <a href="/favorite/">Favorite</a>  <!-- Show only if logged in -->
+            {% endif %}
+            <a href="/details/">Details</a>
+        </div>
+        <div class="right-nav">
+            {% if request.user.is_authenticated %}
+                <span>Welcome, {{ request.user.username }}!</span>
+                <a href="/logout/">Logout</a>
+            {% else %}
+                <a href="/login/">Login</a>
+                <a href="/register/">Sign Up</a>
+
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 TV Show Portal. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

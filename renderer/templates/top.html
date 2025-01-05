@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Featured Shows{% endblock %}
+
+{% block content %}
+<h1>Featured TV Shows</h1>
+<div class="poster-container">
+    {% for poster in posters %}
+    <div class="poster">
+        <a href="{% url 'poster_details' poster.id %}">
+            <img src="{{ poster.url }}" alt="{{ poster.title }}">
+        </a>
+        <h3>{{ poster.title }}</h3>
+        {% if request.user.is_authenticated %}
+            <button onclick="addToFavorites({{ poster.id }})">⭐ Add to Favorites</button>
+        {% else %}
+            <a href="/login/">Log in to add to Favorites</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

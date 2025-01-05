@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Favorite Posters{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Favorite Posters</h1>
+</div>
+
+<p>Total Posters: {{ posters|length }}</p>
+
+<div class="poster-container">
+    {% for poster in posters %}
+        <div class="poster">
+            <a href="{% url 'poster_details' poster.id %}">
+                <img src="{{ poster.url }}" alt="Favorite Poster">
+            </a>
+        </div>
+    {% empty %}
+        <p>No favorite posters found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
